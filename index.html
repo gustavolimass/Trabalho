@@ -1,41 +1,69 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gerenciador de Estoque</title>
-  <link href="[https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap](https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap)" rel="stylesheet" />
-  <link href="[https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined](https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined)" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciador de Estoque</title>
+    <link
+      href="[https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap](https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap)"
+      rel="stylesheet"
+    />
+    <link
+      href="[https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined](https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined)"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="app-container">
-  <header class="topbar">
-    <h2 class="title">Gerenciador de Estoque</h2>
-  </header>
+      <header class="topbar">
+        <h2 class="title">Gerenciador de Estoque</h2>
+      </header>
 
-  <main class="main-content">
-    <section class="form-section">
-  <h3 class="section-title">Adicionar / Editar Produto</h3>
-  <form class="product-form" id="product-form">
-    <label>
-      <span>Nome do Produto</span>
-      <input type="text" id="product" placeholder="Ex: Notebook Gamer" />
-    </label>
+      <main class="main-content">
+        <section class="form-section">
+          <h3 class="section-title">Adicionar / Editar Produto</h3>
+          <form class="product-form" id="product-form">
+            <label>
+              <span>Nome do Produto</span>
+              <input
+                type="text"
+                id="product"
+                placeholder="Ex: Notebook Gamer"
+              />
+            </label>
 
-    <label>
-      <span>Quantidade</span>
-      <input type="number" id="quantity" placeholder="Ex: 15" />
-    </label>
+            <label>
+              <span>Quantidade</span>
+              <input type="number" id="quantity" placeholder="Ex: 15" />
+            </label>
 
-    <button type="submit" id="submit-product" class="btn-primary">
-      Adicionar Produto
-    </button>
-  </form>
+            <button type="submit" id="submit-product" class="btn-primary">
+              Adicionar Produto
+            </button>
+          </form>
+        </section>  
+        <section class="table-section">
+  <h3 class="section-title">Inventário de Produtos</h3>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th class="col-produto">Produto</th>
+          <th class="col-quantidade">Quantidade</th>
+          <th class="col-acoes">Ações</th>
+        </tr>
+      </thead>
+      <tbody id="table-body">
+        <!-- Linhas de produtos serão inseridas aqui via JS -->
+      </tbody>
+    </table>
+  </div>
+  <p id="response"></p>
 </section>
-  </main>
-</div>
+      </main>
+    </div>
 
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
