@@ -366,4 +366,33 @@ body {
 .btn-secondary:hover {
   background-color: #e9e9e9;
 }
+@media (max-width: 768px) {
+  .app-container {
+    padding: 1rem;
+  }
 
+  .product-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-primary {
+    width: 100%;
+    height: auto; /* Altura auto em mobile */
+    padding: 1.2rem 24px;
+  }
+
+  .form-section,
+  .table-section {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 580px) {
+  .modal-body #update-form {
+    flex-direction: column;
+  }
+
+  .form-group {
+    min-width: 100%;
+  }
