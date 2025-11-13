@@ -42,25 +42,54 @@
               Adicionar Produto
             </button>
           </form>
-        </section>  
+        </section>
         <section class="table-section">
-  <h3 class="section-title">Inventário de Produtos</h3>
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th class="col-produto">Produto</th>
-          <th class="col-quantidade">Quantidade</th>
-          <th class="col-acoes">Ações</th>
-        </tr>
-      </thead>
-      <tbody id="table-body">
-        <!-- Linhas de produtos serão inseridas aqui via JS -->
-      </tbody>
-    </table>
+          <h3 class="section-title">Inventário de Produtos</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th class="col-produto">Produto</th>
+                  <th class="col-quantidade">Quantidade</th>
+                  <th class="col-acoes">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="table-body">
+                <!-- Linhas de produtos serão inseridas aqui via JS -->
+              </tbody>
+            </table>
+          </div>
+          <p id="response"></p>
+        </section>  
+        <div class="modal-overlay"></div>
+
+<div class="modal" id="modal">
+
+  <div class="modal-header">
+    <h2>Modificar Produto</h2>
+    <button id="modal-close" class="modal-close" aria-label="Fechar modal">&times;</button>
   </div>
-  <p id="response"></p>
-</section>
+
+  <div class="modal-body">
+    <form action="" id="update-form">
+      <div class="form-group">
+        <label for="update-product">Nome do Produto</label>
+        <input type="text" id="update-product" placeholder="Ex: Notebook Gamer" />
+      </div>
+
+      <div class="form-group">
+        <label for="update-quantity">Quantidade</label>
+        <input type="number" id="update-quantity" placeholder="Ex: 15" />
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-actions">
+    <button type="button" class="btn btn-secondary" id="modal-cancel">Cancelar</button>
+    <button type="submit" form="update-form" class="btn btn-primary" id="modal-save">Salvar Alterações</button>
+  </div>
+
+</div>
       </main>
     </div>
 
