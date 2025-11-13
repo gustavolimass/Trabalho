@@ -55,3 +55,71 @@ body {
   flex-direction: column;
   gap: 32px;
 }
+.form-section {
+  background: var(--white);
+  border: 1px solid var(--gray-light);
+  border-radius: 12px;
+  padding: 0.2rem 1.5rem 1.5rem 1.5rem;
+}
+
+.section-title {
+  font-size: 1.875rem;
+  font-weight: 900;
+  margin-bottom: 16px;
+  line-height: 1.25;
+  letter-spacing: -0.033em;
+}
+
+.product-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-end;
+}
+
+.product-form label {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 220px;
+}
+
+.product-form span {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.product-form input {
+  padding: 1.2rem 1rem;
+  border: 1px solid var(--gray-light);
+  border-radius: 8px;
+  font-size: 16px;
+  color: var(--text-dark);
+}
+
+.product-form input::placeholder {
+  color: var(--gray-text);
+}
+
+.product-form input:focus {
+  border-color: var(--primary);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(19, 91, 236, 0.25);
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 1.2rem 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  height: 4.4rem;
+}
+
+.btn-primary:hover {
+  background-color: #0e4dd6;
+}
