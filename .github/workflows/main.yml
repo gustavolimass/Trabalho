@@ -1,0 +1,31 @@
+name: CI do Estoque (Java + Front)
+
+# Quando esse robô deve rodar?
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+
+    steps:
+    # 1. Baixa o seu código
+    - name: Baixar código (Checkout)
+      uses: actions/checkout@v3
+
+    # 2. Instala o Java 17 no servidor do GitHub
+    - name: Configurar JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    # 3. Tenta compilar o Backend (e roda testes se tiver)
+    # O comando 'mvn -B package' monta o .jar
+    # O parametro '--file back/pom.xml' diz onde está o arquivo de configuração
+    - name: Compilar com Maven
+      run: mvn -B package --file back/pom.xml
