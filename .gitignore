@@ -1,0 +1,16 @@
+node_modules/
+dist/
+
+back/target/
+*.class
+*.jar
+*.war
+
+.vscode/
+.idea/
+
+cypress/screenshots/
+cypress/videos/
+
+.DS_Store
+Thumbs.db
