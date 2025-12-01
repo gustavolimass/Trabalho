@@ -1,94 +1,123 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Gerenciador de Estoque</title>
-   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
-    
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="app-container">
-      <header class="topbar">
-        <h2 class="title">Gerenciador de Estoque</h2>
-      </header>
+        <header class="topbar">
+            <h1 class="title">Gerenciador de Estoque</h1>
+        </header>
 
-      <main class="main-content">
-        <section class="form-section">
-          <h3 class="section-title">Adicionar / Editar Produto</h3>
-          <form class="product-form" id="product-form">
-            <label>
-              <span>Nome do Produto</span>
-              <input
-                type="text"
-                id="product"
-                class="products-inputs"
-                placeholder="Ex: Notebook Gamer"
-              />
-            </label>
+        <main class="main-content">
+            <section class="form-section">
+                <h3 class="section-title">Adicionar / Editar Produto</h3>
+                <form class="product-form" id="product-form">
+                    <div class="container-input">
+                        <label>Nome do Produto</label>
+                        <input type="text" id="product" class="products-inputs" placeholder="Ex: Notebook Gamer" />
+                    </div class="container-input">
 
-            <label>
-              <span>Quantidade</span>
-              <input type="number"  class="products-inputs" id="quantity" placeholder="Ex: 15" />
-            </label>
+                    <div class="container-input">
+                        <label>Quantidade</label>
+                        <input type="number" class="products-inputs" id="quantity" placeholder="Ex: 15" />
+                    </div class="container-input">
 
-            <button type="submit" id="submit-product" class="btn-primary">
-              Adicionar Produto
-            </button>
-          </form>
-        </section>
-        <section class="table-section">
-          <h3 class="section-title">Inventário de Produtos</h3>
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr>
-                  <th class="col-produto">Produto</th>
-                  <th class="col-quantidade">Quantidade</th>
-                  <th class="col-acoes">Ações</th>
-                </tr>
-              </thead>
-              <tbody id="table-body">
-                <!-- Linhas de produtos serão inseridas aqui via JS -->
-              </tbody>
-            </table>
-          </div>
-          <p id="response"></p>
-        </section>  
-        <div class="modal-overlay"></div>
+                    <div class="container-input">
+                        <label>Categoria</label>
+                        <select id="categoies" name="categories" class="products-inputs">
+                            <!-- Adicionado automaticamente com JS -->
+                        </select>
+                    </div class="container-input">
 
-<div class="modal" id="modal">
+                    <button type="submit" id="submit-product" class="btn-primary">
+                        Adicionar Produto
+                    </button>
+                </form>
+            </section>
+            <section class="table-section">
+                <div class="inventory-header">
+                    <h3 class="section-title">Inventário de Produtos</h3>
+                    <form class="category-form" id="category-form">
+                        <label for="filter-by-category">Filtrar por categoria: </label>
+                        <select id="filter-by-category" class="products-inputs">
+                            <option value="">Selecione a categoria</option>
+                        </select>
+                        <button type="submit" id="submit-product" class="btn-primary">
+                            Filtrar
+                        </button>
+                    </form>
+                </div>
 
-  <div class="modal-header">
-    <h2>Modificar Produto</h2>
-    <button id="modal-close" class="modal-close" aria-label="Fechar modal">&times;</button>
-  </div>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="col-produto">Produto</th>
+                                <th class="col-quantidade">Quantidade</th>
+                                <th class="col-categoria">Categoria</th>
+                                <th class="col-acoes">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- Linhas de produtos serão inseridas aqui via JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <p id="response"></p>
+            </section>
+            <div class="modal-overlay"></div>
 
-  <div class="modal-body">
-    <form action="" id="update-form">
-      <div class="form-group">
-        <label for="update-product">Nome do Produto</label>
-        <input type="text"  class="products-inputs" id="update-product" placeholder="Ex: Notebook Gamer" />
-      </div>
+            <div class="modal" id="modal">
 
-      <div class="form-group">
-        <label for="update-quantity">Quantidade</label>
-        <input type="number"  class="products-inputs" id="update-quantity" placeholder="Ex: 15" />
-      </div>
-    </form>
-  </div>
+                <div class="modal-header">
+                    <h2>Modificar Produto</h2>
+                    <button id="modal-close" class="modal-close" aria-label="Fechar modal">&times;</button>
+                </div>
 
-  <div class="modal-actions">
-    <button type="button" class="btn btn-secondary" id="modal-cancel">Cancelar</button>
-    <button type="submit" form="update-form" class="btn btn-primary" id="modal-save">Salvar Alterações</button>
-  </div>
+                <div class="modal-body">
+                    <form action="" id="update-form">
+                        <div class="form-group">
+                            <label for="update-product">Nome do Produto</label>
+                            <input type="text" class="products-inputs" id="update-product"
+                                placeholder="Ex: Notebook Gamer" />
+                        </div>
 
-</div>
-      </main>
+                        <div class="form-group">
+                            <label for="update-quantity">Quantidade</label>
+                            <input type="number" class="products-inputs" id="update-quantity" placeholder="Ex: 15" />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="update-category">Categoria</label>
+                            <select id="update-category" class="products-inputs">
+                                <option value="">--Selecione a categoria--</option>
+                            </select>
+                        </div>
+
+                    </form>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" id="modal-cancel">Cancelar</button>
+                    <button type="submit" form="update-form" class="btn btn-primary" id="modal-save">Salvar
+                        Alterações</button>
+                </div>
+
+            </div>
+        </main>
     </div>
 
     <script src="script.js"></script>
-  </body>
+</body>
+
 </html>

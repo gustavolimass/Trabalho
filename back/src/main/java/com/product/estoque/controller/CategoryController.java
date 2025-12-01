@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/category")
 public class CategoryController {
@@ -19,18 +20,12 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-//    @PostMapping
-//    public CategoryDTO createCategory(@RequestBody CategoryCreateDTO dto) {
-//        Category category = new Category(dto.name());
-//        categoryService.createCategory(category);
-//        return  new CategoryDTO(category.getId(), category.getName());
-//    }
-
-@PostMapping
-public Category createCategory(@RequestBody Category category) {
-    return categoryService.createCategory(category);
-}
-
+    @PostMapping
+    public CategoryDTO createCategory(@RequestBody CategoryCreateDTO dto) {
+        Category category = new Category(dto.name());
+        categoryService.createCategory(category);
+        return  new CategoryDTO(category.getId(), category.getName());
+    }
 
     @GetMapping
     public List<CategoryDTO> listAll() {

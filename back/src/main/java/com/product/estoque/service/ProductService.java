@@ -51,7 +51,7 @@ public class ProductService {
         productUpdated.setQuantity(
                 product.getQuantity() != null ? product.getQuantity() : productEntity.getQuantity()
         );
-        productUpdated.setCategory(productEntity.getCategory());
+        productUpdated.setCategory( product.getCategory() != null ? product.getCategory() : productEntity.getCategory());
         return productRepository.save(productUpdated);
     }
 

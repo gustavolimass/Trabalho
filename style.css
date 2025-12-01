@@ -66,7 +66,7 @@ body {
 }
 
 .section-title {
-  font-size: 1.5rem; 
+  font-size: 1.5rem;
   font-weight: 800;
   margin-bottom: 1.5rem;
   color: var(--text-dark);
@@ -76,30 +76,30 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
-  align-items: flex-end; 
+  align-items: flex-end;
 }
 
-.product-form label {
+.product-form .container-input {
   display: flex;
   flex-direction: column;
   flex: 1;
   min-width: 220px;
 }
 
-.product-form span {
+.product-form label {
   font-weight: 600;
   margin-bottom: 8px;
   font-size: 0.9rem;
   color: var(--text-dark);
 }
 
- .products-inputs {
+.products-inputs {
   padding: 0.8rem 1rem;
   border: 1px solid var(--gray-light);
   border-radius: 8px;
   font-size: 15px;
   color: var(--text-dark);
-  height: 48px; 
+  height: 48px;
 }
 
 .products-inputs::placeholder {
@@ -141,6 +141,18 @@ body {
   padding: 1.5rem;
 }
 
+.inventory-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.category-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .table-wrapper {
   width: 100%;
   overflow-x: auto;
@@ -152,7 +164,7 @@ body {
 }
 
 .table-section thead th {
-  text-align: left;
+  text-align: center;
   padding: 1rem;
   font-size: 0.75rem;
   text-transform: uppercase;
@@ -188,7 +200,6 @@ body {
   gap: 8px;
 }
 
-
 .btn-icon {
   width: 36px;
   height: 36px;
@@ -212,7 +223,7 @@ body {
 
 .btn-icon.edit:hover {
   background-color: var(--primary);
-  color: white; 
+  color: white;
 }
 
 .btn-icon.delete {
@@ -263,8 +274,14 @@ body {
 }
 
 @keyframes modalFadeIn {
-  from { opacity: 0; transform: translate(-50%, -45%); }
-  to { opacity: 1; transform: translate(-50%, -50%); }
+  from {
+    opacity: 0;
+    transform: translate(-50%, -45%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .modal-header {
@@ -301,7 +318,7 @@ body {
 .modal-body #update-form {
   display: flex;
   gap: 16px;
-  flex-direction: column; 
+  flex-direction: column;
 }
 
 .modal-actions {
@@ -337,12 +354,16 @@ body {
   .app-container {
     padding: 10px;
   }
-  
+
+  .section-title {
+    text-align: center;
+  }
+
   .product-form {
     flex-direction: column;
-    align-items: stretch; 
+    align-items: stretch;
   }
-  
+
   .product-form input,
   .btn-primary {
     width: 100%;
@@ -350,5 +371,18 @@ body {
 
   .table-section {
     padding: 1rem;
+  }
+
+  .inventory-header {
+    flex-direction: column;
+  }
+
+  .category-form {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .category-form select {
+    width: 100%;
   }
 }
