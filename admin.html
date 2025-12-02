@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Painel de Administração - Estoque</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <header class="topbar">
+        <h1 class="title">Painel de Administração</h1>
+      </header>
+
+      <main class="main-content">
+        <!-- Seção de Categorias -->
+        <section class="form-section" id="categories-section">
+          <h3 class="section-title">Categorias</h3>
+
+          <form class="product-form" id="category-admin-form">
+            <div class="container-input">
+              <label for="category-name-input">Nome da Categoria</label>
+              <input
+                type="text"
+                id="category-name-input"
+                class="products-inputs"
+                placeholder="Ex: Informática"
+              />
+            </div>
+            <button type="submit" id="create-category-btn" class="btn-primary">
+              Criar Categoria
+            </button>
+          </form>
+
+          <div class="table-section" style="margin-top: 1.5rem;">
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th style="width: 80px; text-align:center;">ID</th>
+                    <th>Nome</th>
+                    <th class="col-acoes">Ações</th>
+                  </tr>
+                </thead>
+                <tbody id="categories-table-body">
+                  <!-- Linhas de categorias inseridas via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- Seção de Produtos -->
+        <section class="table-section" id="products-section">
+          <div class="inventory-header">
+            <h3 class="section-title">Produtos</h3>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th class="col-quantidade">Quantidade</th>
+                  <th class="col-categoria">Categoria</th>
+                  <th class="col-acoes">Ações</th>
+                </tr>
+              </thead>
+              <tbody id="products-table-body">
+                <!-- Linhas de produtos inseridas via JS -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- Modal de edição de produto -->
+        <div class="modal-overlay" id="admin-modal-overlay"></div>
+        <div class="modal" id="product-admin-modal">
+          <div class="modal-header">
+            <h2>Editar Produto</h2>
+            <button id="product-modal-close" class="modal-close" aria-label="Fechar modal">&times;</button>
+          </div>
+
+          <div class="modal-body">
+            <form id="product-admin-form">
+              <div class="form-group">
+                <label for="admin-product-name">Nome do Produto</label>
+                <input
+                  type="text"
+                  class="products-inputs"
+                  id="admin-product-name"
+                  placeholder="Ex: Notebook Gamer"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="admin-product-quantity">Quantidade</label>
+                <input
+                  type="number"
+                  class="products-inputs"
+                  id="admin-product-quantity"
+                  placeholder="Ex: 15"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="admin-product-category">Categoria</label>
+                <select id="admin-product-category" class="products-inputs">
+                  <option value="">Selecione a categoria</option>
+                </select>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="product-modal-cancel">Cancelar</button>
+            <button
+              type="submit"
+              form="product-admin-form"
+              class="btn btn-primary"
+              id="product-modal-save"
+            >
+              Salvar Alterações
+            </button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script src="admin.js"></script>
+  </body>
+</html>

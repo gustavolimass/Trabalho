@@ -1,31 +1,55 @@
-name: CI do Estoque (Java + Front)
+name: CI do Estoque (Backend e Frontend)
 
 # Quando esse robô deve rodar?
 on:
   push:
-    branches: [ "main", "master" ]
+    branches: ["main", "master"]
   pull_request:
-    branches: [ "main", "master" ]
+    branches: ["main", "master"]
 
 jobs:
-  build-backend:
+  backend-unit-tests:
     runs-on: ubuntu-latest
 
     steps:
-    # 1. Baixa o seu código
-    - name: Baixar código (Checkout)
+    - name: Baixar código
       uses: actions/checkout@v3
 
-    # 2. Instala o Java 17 no servidor do GitHub
     - name: Configurar JDK 17
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: maven
+        cache: 'maven'
 
-    # 3. Tenta compilar o Backend (e roda testes se tiver)
-    # O comando 'mvn -B package' monta o .jar
-    # O parametro '--file back/pom.xml' diz onde está o arquivo de configuração
-    - name: Compilar com Maven
-      run: mvn -B package --file back/pom.xml
+    - name: Rodar testes unitários do Backend com Maven
+      # O comando 'test' executa os testes (como ProdutoControllerTest)
+      run: mvn -B test --file back/pom.xml
+
+  frontend-e2e-tests:
+    # Garante que este job só rode se o job de testes do backend passar
+    needs: backend-unit-tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Baixar código
+      uses: actions/checkout@v3
+
+    # A action do Cypress já instala o Node.js, então o passo 'setup-node' não é mais necessário.
+    # Ela também já faz o 'npm install' por padrão.
+
+    - name: Rodar testes E2E do Cypress
+      # Usa a action oficial do Cypress que simplifica tudo
+      uses: cypress-io/github-action@v6
+      with:
+        # Comando para iniciar o servidor do frontend em background.
+        # 'npx http-server .' serve os arquivos da pasta atual.
+        # Precisamos instalar o http-server primeiro.
+        build: npm install && npm install -g http-server
+        start: http-server . -p 5500
+        # Comando para iniciar o backend em background
+        start-2: mvn -B spring-boot:run --file back/pom.xml
+        # Espera a URL do backend ficar disponível antes de rodar os testes
+        wait-on: 'http://localhost:8080'
+        # O comando para rodar os testes já é 'npm run cy:run' por padrão, mas podemos ser explícitos.
+        command: npm run cy:run

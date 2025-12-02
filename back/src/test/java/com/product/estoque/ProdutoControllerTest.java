@@ -1,27 +1,31 @@
 package com.product.estoque;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import java.util.List;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.product.estoque.controller.ProductController;
+import com.product.estoque.dto.CategoryDTO;
+import com.product.estoque.dto.ProductCreateDTO;
 import com.product.estoque.entity.Category;
 import com.product.estoque.entity.Product;
 import com.product.estoque.service.ProductService;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ProductController.class)
-public class ProdutoControllerTest {
+class ProdutoControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,45 +37,35 @@ public class ProdutoControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    public void deveListarProdutosCorretamente() throws Exception {
-        // CENÁRIO
-        Product p1 = new Product();
-        p1.setId(1);
-        p1.setName("Notebook Teste");
-        p1.setQuantity(10);
-        p1.setCategory(new Category(1,"Eletrônico"));
+    void deveCriarProdutoComSucesso() throws Exception {
+        CategoryDTO categoryDTO = new CategoryDTO(1, "Informática");
+        ProductCreateDTO createDTO = new ProductCreateDTO("Notebook Gamer", 10, categoryDTO);
 
-        List<Product> listaFalsa = List.of(p1);
+        Product saved = new Product("Notebook Gamer", 10, new Category(1, "Informática"));
+        saved.setId(1);
 
-        when(productService.findAllProducts()).thenReturn(listaFalsa);
+        when(productService.createProduct(any(Product.class))).thenReturn(saved);
 
-        // TESTE
-        mockMvc.perform(get("/api/product"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name").value("Notebook Teste"))
-                .andExpect(jsonPath("$[0].quantity").value(10));
-    }
+        String body = objectMapper.writeValueAsString(createDTO);
 
-    @Test
-    public void deveAdicionarProdutoCorretamente() throws Exception {
-        // CENÁRIO
-
-        Product novoProduto = new Product();
-        novoProduto.setId(8);
-        novoProduto.setName("Mouse Gamer");
-        novoProduto.setQuantity(50);
-        novoProduto.setCategory(new Category(1, "Periférico"));
-
-        when(productService.createProduct(org.mockito.ArgumentMatchers.any(Product.class)))
-                .thenReturn(novoProduto);
-
-        System.out.println(objectMapper.writeValueAsString(novoProduto));
-
-        // TESTE
         mockMvc.perform(post("/api/product")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(novoProduto)))
+                        .content(body))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.name").value("Mouse Gamer"));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.name").value("Notebook Gamer"))
+                .andExpect(jsonPath("$.quantity").value(10))
+                .andExpect(jsonPath("$.categoryId.id").value(1))
+                .andExpect(jsonPath("$.categoryId.name").value("Informática"));
+
+        ArgumentCaptor<Product> productCaptor = ArgumentCaptor.forClass(Product.class);
+        verify(productService).createProduct(productCaptor.capture());
+        Product enviado = productCaptor.getValue();
+
+        assertThat(enviado.getName()).isEqualTo("Notebook Gamer");
+        assertThat(enviado.getQuantity()).isEqualTo(10);
+        assertThat(enviado.getCategory().getId()).isEqualTo(1);
+        assertThat(enviado.getCategory().getName()).isEqualTo("Informática");
     }
 }
