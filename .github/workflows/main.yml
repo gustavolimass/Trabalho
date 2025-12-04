@@ -49,6 +49,6 @@ jobs:
     - name: Instalar dependências com NPM
       run: npm install # Assumindo que o package.json está na raiz. Se estiver em 'front/', use 'npm install --prefix front'
 
-    # 4. Roda os testes do frontend
-   # - name: Rodar testes do frontend
-   #   run: npm run cy:run # Comando correto para rodar os testes do Cypress em CI
+     4. Roda os testes do frontend
+    - name: Rodar testes do frontend
+     run: npm run cy:run # Comando correto para rodar os testes do Cypress em CI
