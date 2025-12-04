@@ -160,8 +160,9 @@ transition: all 0.2s ease;
 }
 
 .table-wrapper {
-  width: 100%;
-  overflow-x: auto;
+ border-radius: 12px;
+  overflow: hidden; 
+  border: 1px solid #edf2f7;
 }
 
 .table-section table {
@@ -170,13 +171,12 @@ transition: all 0.2s ease;
 }
 
 .table-section thead th {
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.75rem;
+  background-color: #f8fafc; /* Cinza azulado bem claro */
+  color: #64748b;
+  font-weight: 800;
+  letter-spacing: 0.5px; /* Espaça um pouco as letras */
   text-transform: uppercase;
-  color: var(--gray-text);
-  font-weight: 700;
-  border-bottom: 2px solid var(--bg);
+  border-bottom: 2px solid #e2e8f0;
 }
 
 .table-section tbody td {
@@ -188,7 +188,12 @@ transition: all 0.2s ease;
 }
 
 .table-section tbody tr:last-child td {
-  border-bottom: none;
+  transition: background-color 0.2s ease;
+}
+
+.table-section tbody tr:hover {
+  background-color: #f1f5f9; /* Destaca a linha que o mouse está em cima */
+  cursor: default;
 }
 
 .col-quantidade {
