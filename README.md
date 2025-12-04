@@ -35,12 +35,8 @@ cd back
 
 # 2. Compile o projeto e gere o arquivo .jar com o Maven.
 # Este comando irá baixar as dependências e empacotar a aplicação.
-mvn -B package
+mvn spring-boot:run
 
-# 3. Após a compilação, o arquivo .jar estará na pasta 'target'.
-# Execute a aplicação (substitua 'nome-do-arquivo.jar' pelo nome gerado).
-java -jar target/nome-do-arquivo.jar
-```
 
 Após esses passos, o servidor backend estará rodando, pronto para receber requisições.
 
