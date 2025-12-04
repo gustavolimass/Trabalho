@@ -21,6 +21,9 @@ body {
   color: var(--text-dark);
   margin: 0;
   padding: 0;
+  /* --- NOVO BACKGROUND --- */
+background: linear-gradient(135deg, #135bec 0%, #08296d 100%);
+  min-height: 100vh;
 }
 
 .app-container {
@@ -94,22 +97,25 @@ body {
 }
 
 .products-inputs {
-  padding: 0.8rem 1rem;
-  border: 1px solid var(--gray-light);
-  border-radius: 8px;
-  font-size: 15px;
-  color: var(--text-dark);
-  height: 48px;
+background-color: #eff6ff; /* Azul muito pálido */
+border: 1px solid #dbeafe; /* Borda azul suave */
+border-radius: 8px;
+padding: 0.8rem 1rem;
+font-size: 15px;
+color: #1e3a8a; /* Texto azul escuro para leitura */
+height: 48px;
+transition: all 0.2s ease;
 }
 
 .products-inputs::placeholder {
-  color: var(--gray-text);
+ color: #93c5fd;
 }
 
 .products-inputs:focus {
-  border-color: var(--primary);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(19, 91, 236, 0.15);
+ background-color: #ffffff;
+ border-color: var(--primary);
+ outline: none;
+ box-shadow: 0 4px 12px rgba(19, 91, 236, 0.15);
 }
 
 .btn-primary {
@@ -387,8 +393,9 @@ body {
   }
 }
 .main-logo {
-  max-width: 180px;      
-  height: auto;          
-  margin-bottom: 24px;   
+  max-width: 180px;
+  height: auto;
+  margin-bottom: 24px;
   display: block;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.4));
 }
