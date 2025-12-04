@@ -19,7 +19,9 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -93,5 +95,21 @@ public class ProdutoControllerTest {
                 .andExpect(jsonPath("$", hasSize(2))) // Espera que o array tenha 2 elementos
                 .andExpect(jsonPath("$[0].name").value("Notebook"))
                 .andExpect(jsonPath("$[1].name").value("Celular"));
+    }
+
+    @Test
+    void deveDeletarProdutoComSucesso() throws Exception {
+        // --- ARRANGE ---
+        Integer productId = 1;
+
+        // Para métodos void, não precisamos usar when/thenReturn.
+        // O mock já aceitará a chamada.
+
+        // --- ACT & ASSERT ---
+        mockMvc.perform(delete("/api/product/{id}", productId)) // Simula uma requisição DELETE
+                .andExpect(status().isNoContent()); // Espera o status 204 No Content
+
+        // Verifica se o método delete do serviço foi chamado exatamente uma vez com o ID correto.
+        verify(productService).delete(productId);
     }
 }
