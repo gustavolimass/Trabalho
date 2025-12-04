@@ -112,4 +112,25 @@ public class ProdutoControllerTest {
         // Verifica se o método delete do serviço foi chamado exatamente uma vez com o ID correto.
         verify(productService).delete(productId);
     }
+
+    @Test
+    void deveEncontrarProdutoPorIdComSucesso() throws Exception {
+        // --- ARRANGE ---
+        Integer productId = 1;
+        Category category = new Category(1, "Eletrônicos");
+        Product product = new Product("Notebook", 10, category);
+        product.setId(productId);
+
+        // Configuramos o mock para retornar o produto quando findById for chamado
+        when(productService.findById(productId)).thenReturn(product);
+
+        // --- ACT & ASSERT ---
+        mockMvc.perform(get("/api/product/{id}", productId)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(productId))
+                .andExpect(jsonPath("$.name").value("Notebook"))
+                .andExpect(jsonPath("$.quantity").value(10))
+                .andExpect(jsonPath("$.categoryId.name").value("Eletrônicos"));
+    }
 }

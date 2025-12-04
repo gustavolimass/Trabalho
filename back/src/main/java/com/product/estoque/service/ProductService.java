@@ -65,4 +65,12 @@ public class ProductService {
                 .orElseThrow(() -> new RuntimeException("Produto não encontrado com o id: " + id));
         productRepository.deleteById(id);
     }
+
+    /**
+     * Busca um produto pelo seu ID.
+     */
+    public Product findById(Integer id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado com o id: " + id));
+    }
 }

@@ -47,6 +47,12 @@ public class ProductController {
         return ResponseEntity.ok(dtos);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDTO> findById(@PathVariable Integer id) {
+        Product product = productService.findById(id);
+        return ResponseEntity.ok(ProductMapper.toDTO(product));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<ProductDTO> updateProduct(@PathVariable Integer id, @RequestBody ProductUpdateDTO productUpdateDTO) {
         Product product = ProductMapper.toEntity(productUpdateDTO);
