@@ -133,4 +133,29 @@ public class ProdutoControllerTest {
                 .andExpect(jsonPath("$.quantity").value(10))
                 .andExpect(jsonPath("$.categoryId.name").value("Eletrônicos"));
     }
+
+    @Test
+    void deveListarProdutosPorCategoriaComSucesso() throws Exception {
+        // --- ARRANGE ---
+        Integer categoryId = 1;
+        Category category = new Category(categoryId, "Eletrônicos");
+        Product product1 = new Product("Notebook", 10, category);
+        product1.setId(1);
+
+        List<Product> productList = Arrays.asList(product1);
+
+        // Configuramos o mock para retornar a lista de produtos quando findByCategory for chamado
+        when(productService.findByCategory(categoryId)).thenReturn(productList);
+
+        // --- ACT & ASSERT ---
+        mockMvc.perform(get("/api/product/by-category") // Endpoint atual no ProductController
+                .param("categoryId", String.valueOf(categoryId)) // Passa o categoryId como RequestParam
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id").value(1))
+                .andExpect(jsonPath("$[0].name").value("Notebook"))
+                .andExpect(jsonPath("$[0].categoryId.id").value(categoryId));
+    }
 }
