@@ -2,6 +2,7 @@ package com.product.estoque.service;
 
 import com.product.estoque.entity.Product;
 import com.product.estoque.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,57 +10,41 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    private final ProductRepository productRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
-    public Product createProduct (Product product) {
-
-        productRepository.findByName(product.getName())
-                .ifPresent(p -> {
-                    throw new RuntimeException("Já existe um produto cadastrado com o nome: " + p.getName());
-                });
-
-        return productRepository.save(product);
-    }
-
-    public List<Product> findAllProducts(){
+    /**
+     * Retorna uma lista com todos os produtos cadastrados.
+     */
+    public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
 
-    public List<Product> findByCategory(Integer id) {
-        List<Product> products = productRepository.findByCategoryId(id);
-
-        if (products.isEmpty()) {
-            throw new RuntimeException("Nenhum produto encontrado para a categoria ID: " + id);
-        }
-
-        return products;
+    /**
+     * Cria um novo produto, validando se já não existe um com o mesmo nome.
+     */
+    public Product createProduct(Product product) {
+        productRepository.findByName(product.getName()).ifPresent(p -> {
+            throw new RuntimeException("Já existe um produto cadastrado com o nome: " + product.getName());
+        });
+        return productRepository.save(product);
     }
 
-    public Product updateProduct(Integer id, Product product) {
-        Product productEntity = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Nenhum produto encontrado para a categoria ID: " + id));
+    /**
+     * Atualiza um produto existente.
+     */
+    public Product updateProduct(Integer id, Product productDetails) {
+        // Busca o produto no banco de dados. Se não encontrar, lança uma exceção.
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado com o id: " + id));
 
-        Product productUpdated = new Product();
-        productUpdated.setId(productEntity.getId());
-        productUpdated.setName(
-                product.getName() != null ? product.getName() : productEntity.getName()
-        );
-        productUpdated.setQuantity(
-                product.getQuantity() != null ? product.getQuantity() : productEntity.getQuantity()
-        );
-        productUpdated.setCategory( product.getCategory() != null ? product.getCategory() : productEntity.getCategory());
-        return productRepository.save(productUpdated);
+        // Atualiza os campos do produto encontrado com os novos detalhes.
+        product.setName(productDetails.getName());
+        product.setQuantity(productDetails.getQuantity());
+        // A categoria também poderia ser atualizada se necessário.
+        // product.setCategory(productDetails.getCategory());
+
+        // Salva o produto atualizado no banco de dados.
+        return productRepository.save(product);
     }
-
-    public void delete(Integer id) {
-        productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Nenhum produto encontrado com o id: " + id));
-
-        productRepository.deleteById(id);
-    }
-
 }
