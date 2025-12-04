@@ -14,8 +14,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Arrays;
+import java.util.List;
+
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -62,5 +67,31 @@ public class ProdutoControllerTest {
                 .andExpect(status().isCreated()) // Esperamos que o status da resposta seja 201 (Created)
                 .andExpect(jsonPath("$.id").value(1)) // Verifica se o JSON de resposta tem o campo "id" com valor 1
                 .andExpect(jsonPath("$.name").value("Notebook Gamer")); // Verifica o nome
+    }
+
+    @Test
+    void deveListarTodosOsProdutosComSucesso() throws Exception {
+        // --- ARRANGE ---
+        // a. Criamos os dados que o serviço deve retornar
+        Category category = new Category(1, "Eletrônicos");
+        Product product1 = new Product("Notebook", 10, category);
+        product1.setId(1);
+
+        Product product2 = new Product("Celular", 25, category);
+        product2.setId(2);
+
+        List<Product> productList = Arrays.asList(product1, product2);
+
+        // b. Configuramos o comportamento do serviço mockado
+        when(productService.getAllProducts()).thenReturn(productList);
+
+        // --- ACT & ASSERT ---
+        mockMvc.perform(get("/api/product") // Simula uma requisição GET
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()) // Espera o status 200 OK
+                .andExpect(jsonPath("$").isArray()) // Espera que a resposta seja um array
+                .andExpect(jsonPath("$", hasSize(2))) // Espera que o array tenha 2 elementos
+                .andExpect(jsonPath("$[0].name").value("Notebook"))
+                .andExpect(jsonPath("$[1].name").value("Celular"));
     }
 }
