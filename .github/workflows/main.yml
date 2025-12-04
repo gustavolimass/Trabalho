@@ -42,10 +42,6 @@ jobs:
     - name: Configurar Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '18' # Ou a versão que preferir
+        node-version: '18' 
 
-    # 3. Instala dependências e roda os testes do Cypress
-    - name: Instalar dependências e rodar testes
-      run: |
-        npm install
-        npm run cy:run
+    

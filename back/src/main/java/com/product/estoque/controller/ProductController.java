@@ -6,8 +6,10 @@ import com.product.estoque.dto.ProductDTO;
 import com.product.estoque.dto.ProductUpdateDTO;
 import com.product.estoque.entity.Category;
 import com.product.estoque.entity.Product;
+import com.product.estoque.mapper.ProductMapper;
 import com.product.estoque.service.ProductService;
 import org.springframework.http.HttpStatus;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,51 +27,24 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductCreateDTO productCreateDTO) {
-        Product product = new Product(productCreateDTO.name(), productCreateDTO.quantity(), new Category(productCreateDTO.categoryId().id(), productCreateDTO.categoryId().name()));
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody @Valid ProductCreateDTO productCreateDTO) {
+        Product product = ProductMapper.toEntity(productCreateDTO);
         Product saved = productService.createProduct(product);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(
-                        new ProductDTO(
-                                saved.getId(),
-                                saved.getName(),
-                                saved.getQuantity(),
-                                new CategoryDTO(
-                                        saved.getCategory().getId(),
-                                        saved.getCategory().getName())));
+        return ResponseEntity.status(HttpStatus.CREATED).body(ProductMapper.toDTO(saved));
     }
 
     @GetMapping
     public ResponseEntity<List<ProductDTO>> listAll () {
         List<Product> products = productService.findAllProducts();
-        return ResponseEntity.ok(products
-                .stream()
-                .map(product ->
-                        new ProductDTO(
-                                product.getId(),
-                                product.getName(),
-                                product.getQuantity(),
-                                new CategoryDTO(
-                                        product.getCategory().getId(),
-                                        product.getCategory().getName())))
-                .toList());
+        List<ProductDTO> dtos = products.stream().map(ProductMapper::toDTO).toList();
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/by-category")
     public ResponseEntity<List<ProductDTO>> listByCategory(@RequestParam Integer categoryId) {
         List<Product> products = productService.findByCategory(categoryId);
-        return ResponseEntity.ok(products
-                .stream()
-                .map(product ->
-                        new ProductDTO(
-                                product.getId(),
-                                product.getName(),
-                                product.getQuantity(),
-                                new CategoryDTO(
-                                        product.getCategory().getId(),
-                                        product.getCategory().getName())))
-                .toList());
+        List<ProductDTO> dtos = products.stream().map(ProductMapper::toDTO).toList();
+        return ResponseEntity.ok(dtos);
     }
 
     @PutMapping("/{id}")
@@ -77,14 +52,7 @@ public class ProductController {
         Product product = new Product(productUpdateDTO.name(), productUpdateDTO.quantity(), new Category(productUpdateDTO.categoryId().id(), productUpdateDTO.categoryId().name()));
         Product updatedProduct = productService.updateProduct(id, product);
 
-        return ResponseEntity.ok(
-                new ProductDTO(
-                        updatedProduct.getId(),
-                        updatedProduct.getName(),
-                        updatedProduct.getQuantity(),
-                        new CategoryDTO(
-                                updatedProduct.getCategory().getId(),
-                                updatedProduct.getCategory().getName())));
+        return ResponseEntity.ok(ProductMapper.toDTO(updatedProduct));
     }
 
     @DeleteMapping("/{id}")
