@@ -47,4 +47,22 @@ public class ProductService {
         // Salva o produto atualizado no banco de dados.
         return productRepository.save(product);
     }
+
+    /**
+     * Busca produtos por um ID de categoria.
+     */
+    public List<Product> findByCategory(Integer categoryId) {
+        // Assumindo que o repositório terá um método para buscar por ID de categoria.
+        // Este método precisa ser criado na interface ProductRepository.
+        return productRepository.findByCategoryId(categoryId);
+    }
+
+    /**
+     * Deleta um produto pelo seu ID.
+     */
+    public void delete(Integer id) {
+        productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produto não encontrado com o id: " + id));
+        productRepository.deleteById(id);
+    }
 }
