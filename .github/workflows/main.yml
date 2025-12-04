@@ -51,4 +51,4 @@ jobs:
 
     # 4. Roda os testes do frontend
     - name: Rodar testes do frontend
-      run: npm test # Ou o comando que você usa para rodar os testes. Se estiver em 'front/', use 'npm test --prefix front'
+      run: npm run cy:run # Comando correto para rodar os testes do Cypress em CI
