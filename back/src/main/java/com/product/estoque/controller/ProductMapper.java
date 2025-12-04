@@ -2,6 +2,7 @@ package com.product.estoque.mapper;
 
 import com.product.estoque.dto.CategoryDTO;
 import com.product.estoque.dto.ProductCreateDTO;
+import com.product.estoque.dto.ProductUpdateDTO;
 import com.product.estoque.dto.ProductDTO;
 import com.product.estoque.entity.Category;
 import com.product.estoque.entity.Product;
@@ -25,6 +26,10 @@ public class ProductMapper {
     }
 
     public static Product toEntity(ProductCreateDTO dto) {
+        return new Product(dto.name(), dto.quantity(), new Category(dto.categoryId().id(), dto.categoryId().name()));
+    }
+
+    public static Product toEntity(ProductUpdateDTO dto) {
         return new Product(dto.name(), dto.quantity(), new Category(dto.categoryId().id(), dto.categoryId().name()));
     }
 }
