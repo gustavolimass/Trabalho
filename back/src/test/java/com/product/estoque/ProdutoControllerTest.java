@@ -38,6 +38,7 @@ public class ProdutoControllerTest {
 
     // 3. @MockBean cria um mock do ProductService. O Spring vai injetar esse mock no ProductController.
     // Esta é a correção principal para evitar o erro de NullPointerException.
+    @SuppressWarnings("removal")
     @MockBean
     private ProductService productService;
 
